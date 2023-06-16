@@ -3,6 +3,17 @@
 #include "stdio.h"
 #include "stdlib.h"
 
+struct Array
+{
+    int size;
+    int *ptrArr;
+};
+void initArray(struct Array *m)
+{
+    m->ptrArr = NULL;
+    m->size = 0;
+}
+
 int *concat(int *a1, int l1, int *a2, int l2) //  return dynamic memory
 {
     int *newArr = (int *)malloc(sizeof(int) * (l1 + l2));
@@ -34,12 +45,14 @@ int every(int *arr, int l, int (*callBack)(int))
     return 1;
 }
 
-int *filter(int *arr, int l, int (*callBack)(int)) //  return dynamic memory
+struct Array filter(int *arr, int l, int (*callBack)(int)) //  return dynamic memory
 {
     int *newArr = (int *)malloc(sizeof(int) * l);
+    struct Array m;
+    initArray(&m);
     if (newArr == NULL)
     {
-        return newArr;
+        return m;
     }
     int k = 0;
     for (int i = 0; i < l; ++i)
@@ -49,11 +62,9 @@ int *filter(int *arr, int l, int (*callBack)(int)) //  return dynamic memory
             newArr[k++] = arr[i];
         }
     }
-    if (k == l)
-    {
-        return newArr;
-    }
-    return (int *)realloc(newArr, k * sizeof(int));
+    m.size = k;
+    m.ptrArr = (int *)realloc(newArr, k * sizeof(int));
+    return m;
 }
 
 int *flat(int **arr, int n, int m, int depth) //  return dynamic memory
@@ -152,27 +163,29 @@ void reverse(int *arr, int size)
     }
 }
 
-int *slice(int *arr, int size, int l, int r) //  return dynamic memory
+struct Array slice(int *arr, int size, int l, int r) //  return dynamic memory
 {
-    int *newArr = (int *)malloc(sizeof(int) * size);
-    int k = 0;
-    if (newArr == NULL)
+    struct Array m;
+    initArray(&m);
+    if (l < 0 || r >= size)
     {
-        return NULL;
-    }
-    for (int i = 0; i < size; ++i)
-    {
-        if (i >= l && i < r)
-        {
-            newArr[k++] = arr[i];
-        }
+        printf("%s", "out of range");
+        return m;
     }
 
-    if (k == size)
+    int *newArr = (int *)malloc(sizeof(int) * r - l);
+    if (newArr == NULL)
     {
-        return newArr;
+        return m;
     }
-    return (int *)realloc(newArr, sizeof(int) * k);
+    int k = 0;
+    for (int i = l; i < r; ++i)
+    {
+        newArr[k++] = arr[i];
+    }
+    m.ptrArr = newArr;
+    m.size = k;
+    return m;
 }
 
 int some(int *arr, int size, int (*callBack)(int))
@@ -189,7 +202,6 @@ int some(int *arr, int size, int (*callBack)(int))
 
 void sort(int *arr, int size)
 {
-
     int swapped = 0;
     for (int i = 0; i < size; ++i)
     {
@@ -211,15 +223,20 @@ void sort(int *arr, int size)
     }
 }
 
-int *splice(int *arr, int size, int index, int spase, int el) //  return dynamic memory
+struct Array splice(int *arr, int size, int index, int spase, int el) //  return dynamic memory
 {
+    struct Array m;
+    initArray(&m);
+
     int length = size + (spase ? (-spase + 1) : 1);
-    // printf(" length %d \n", length);
     int *newArr = (int *)malloc(sizeof(int) * length);
+    if (newArr == NULL)
+    {
+        return m;
+    }
     int k = 0;
     for (int i = 0; i < size; ++i)
     {
-
         if (i == index)
         {
             newArr[k++] = el;
@@ -231,11 +248,9 @@ int *splice(int *arr, int size, int index, int spase, int el) //  return dynamic
         }
         newArr[k++] = arr[i];
     }
-    // for (int i = 0; i < k; ++i)
-    // {
-    //     printf("%d ", newArr[i]);
-    // }
-    return newArr;
+    m.ptrArr = newArr;
+    m.size = k;
+    return m;
 }
 
 // =======   iterator   ============
@@ -357,7 +372,13 @@ char *intToString(int a) //  return dynamic memory
 
 char *join(int *arr, int size, char ch) // return dynamic memory
 {
+    struct Array m;
+    initArray(&m);
     char *str = (char *)malloc(sizeof(char) * 11 * size); // // because int can be at most 10 in length;
+    if (str == NULL)
+    {
+        return NULL;
+    }
     int k = 0;
 
     for (int i = 0; i < size; ++i)

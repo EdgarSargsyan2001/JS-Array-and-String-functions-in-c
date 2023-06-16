@@ -43,7 +43,7 @@ console.log(a3.some((el) => el == 4));
 console.log(a3.sort());
 //սորտավորում է տրված զանգվածը։
 
-console.log(a1.splice(1, 0, 'Feb'));
+console.log(a1.splice(1, 0, 'F'));
 //այս ֆունկցիան իրական զանգվածում ավելեացնում է նշված էլեմենտը տրված ինդեքսով
 
 const iterator1 = a1.entries();

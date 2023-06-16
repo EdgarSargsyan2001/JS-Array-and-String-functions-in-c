@@ -26,7 +26,7 @@ char charAt(const char *str, int index)
 short charCodeAt(const char *str, int index)
 {
 
-    if (index > strlen(str) || index < 0)
+    if (index >= strlen(str) || index < 0)
     {
         return -1;
     }
@@ -219,7 +219,7 @@ int lastIndexOf1(const char *s1, const char *s2, int index)
     }
     return -1;
 }
-char *padEnd(const char *str, int index) // return dynamic memery
+char *padEnd(const char *str, int index) // return dynamic memory
 {
     int l = strlen(str);
     int newLength = l >= index ? l : index;
@@ -243,11 +243,12 @@ char *padEnd(const char *str, int index) // return dynamic memery
     newStr[i] = '\0';
     return newStr;
 }
-char *padEnd1(const char *str, int index, const char *el) // return dynamic memery
+char *padEnd1(const char *str, int index, const char *el) // return dynamic memory
 {
     int l = strlen(str);
     int newLength = l >= index ? l : index;
-    printf("%d\n", newLength);
+    // printf("%d\n", newLength);
+
     char *newStr = (char *)malloc(sizeof(char) * newLength + 1);
     if (newStr == NULL)
     {
@@ -259,7 +260,7 @@ char *padEnd1(const char *str, int index, const char *el) // return dynamic meme
         newStr[i] = str[i];
         ++i;
     }
-    printf("%d\n", i);
+    // printf("%d\n", i);
     while (i < index)
     {
         for (int j = 0; ((i < index) && (el[j] != '\0')); ++j)
@@ -271,7 +272,7 @@ char *padEnd1(const char *str, int index, const char *el) // return dynamic meme
     return newStr;
 }
 
-char *padStart(const char *str, int index) // return dynamic memery
+char *padStart(const char *str, int index) // return dynamic memory
 {
     int l = strlen(str);
     int newLength = l >= index ? l : index;
@@ -296,7 +297,7 @@ char *padStart(const char *str, int index) // return dynamic memery
     newStr[i] = '\0';
     return newStr;
 }
-char *padStart1(const char *str, int index, const char *el) // return dynamic memery
+char *padStart1(const char *str, int index, const char *el) // return dynamic memory
 {
     int l = strlen(str);
     int newLength = l >= index ? l : index;
@@ -325,7 +326,7 @@ char *padStart1(const char *str, int index, const char *el) // return dynamic me
     return newStr;
 }
 
-char *repeat(const char *str, int count) // return dynamic memery
+char *repeat(const char *str, int count) // return dynamic memory
 {
     if (count <= 0)
     {
@@ -348,11 +349,12 @@ char *repeat(const char *str, int count) // return dynamic memery
     return newStr;
 }
 
-char *replace(const char *str, const char *s1, const char *s2) // return dynamic memery
+char *replace(const char *str, const char *s1, const char *s2) // return dynamic memory
 {
     int l = strlen(str);
     int index = indexOf(str, s1);
     int newLength = index == -1 ? l : (l + strlen(s2) - strlen(s1));
+
     char *newStr = (char *)malloc(sizeof(char) * newLength + 1);
     if (newStr == NULL)
     {
@@ -377,22 +379,22 @@ char *replace(const char *str, const char *s1, const char *s2) // return dynamic
     newStr[k] = '\0';
     return newStr;
 }
-char *replaceAll(const char *str, const char *s1, const char *s2) // return dynamic memery
+char *replaceAll(const char *str, const char *s1, const char *s2) // return dynamic memory
 {
-    char *ans = replace(str, s1, s2); //  return dynamic memery
-    int index = indexOf(str, s1);
+    char *ans = replace(str, s1, s2); //  return dynamic memory
+    int index = indexOf(ans, s1);
 
     while (index != -1)
     {
         char *k = ans;
-        ans = replace(ans, s1, s2); //  return dynamic memery
+        ans = replace(ans, s1, s2); //  return dynamic memory
         index = indexOf(ans, s1);
         free(k);
     }
     return ans;
 }
 
-char *slice(const char *str, int index) //  return dynamic memery
+char *slice(const char *str, int index) //  return dynamic memory
 {
     int l = strlen(str);
     if (index >= l || (index * -1) > l)
@@ -418,7 +420,7 @@ char *slice(const char *str, int index) //  return dynamic memery
     return newStr;
 }
 
-char *slice1(const char *str, int l, int r) //  return dynamic memery
+char *slice1(const char *str, int l, int r) //  return dynamic memory
 {
     int len = strlen(str);
     if (r > len || len < l)
@@ -443,80 +445,110 @@ char *slice1(const char *str, int l, int r) //  return dynamic memery
     return newStr;
 }
 
-char **split(const char *str) // return dynamic memery
+// ================= split =========================
+
+char **split(const char *str) // return dynamic memory
 {
-    char **arrforString = (char **)malloc(sizeof(char) * 1);
-    arrforString[0] = (char *)malloc(sizeof(char) * strlen(str) + 1);
+    char **Vector = (char **)malloc(sizeof(char) * 1);
+    Vector[0] = (char *)malloc(sizeof(char) * strlen(str) + 1);
     int i = 0;
     while (str[i] != '\0')
     {
-        arrforString[0][i] = str[i];
+        Vector[0][i] = str[i];
         ++i;
     }
-    arrforString[0][i] = '\0';
-    return arrforString;
+    Vector[0][i] = '\0';
+    return Vector;
+}
+void deleteVector(char **v, int size)
+{
+    for (int i = 0; i < size; ++i)
+    {
+        free(v[i]);
+    }
+    free(v);
 }
 
-struct split1Ans
+int findMaxTokenLength(const char *str, const char *ch)
 {
-    char **arrforString;
-    int size;
-};
-
-struct split1Ans split1(const char *str, const char *ch) // return dynamic memery
-{
-    // init sturct split1Ans
-    struct split1Ans ans;
-    ans.arrforString = NULL;
-    ans.size = 0;
-
-    int l = strlen(str);
-
-    char **arrforString = (char **)malloc(sizeof(char) * l);
-    int size = 0;
-    if (arrforString == NULL)
+    int len = strlen(str);
+    int maxWordSize = 0;
+    int wordSize = 0;
+    for (int i = 0; i <= len; ++i)
     {
-        return ans;
-    }
-
-    int i = 0;
-    char charArr[l];
-    int charArrIndex = 0;
-    while (str[i] != '\0')
-    {
-        if (str[i] == *ch)
+        if (str[i] == *ch || str[i] == '\0')
         {
-            char *k = (char *)malloc(sizeof(char) * charArrIndex + 1);
-            int j = 0;
-            for (; j < charArrIndex; ++j)
+            if (wordSize > maxWordSize)
             {
-                k[j] = charArr[j];
+                maxWordSize = wordSize;
             }
-            k[j] = '\0';
-            arrforString[size++] = k;
-            charArrIndex = 0;
-            ++i;
-            continue;
+            wordSize = 0;
         }
-        charArr[charArrIndex++] = str[i++];
-    }
-    if (charArrIndex != 0)
-    {
-        char *k = (char *)malloc(sizeof(char) * charArrIndex + 1);
-        int j = 0;
-        for (; j < charArrIndex; ++j)
+        else
         {
-            k[j] = charArr[j];
+            wordSize++;
         }
-        k[j] = '\0';
-        arrforString[size++] = k;
     }
-
-    ans.arrforString = (char **)realloc(arrforString, sizeof(char *) * size);
-    ans.size = size;
-    return ans;
+    return maxWordSize;
 }
 
+int TokenCount(const char *str, const char *ch)
+{
+    int len = strlen(str);
+    int splitingCount = 0;
+    for (int i = 0; i <= len; ++i)
+    {
+        if (str[i] == *ch || str[i] == '\0')
+        {
+            splitingCount++;
+        }
+    }
+    return splitingCount;
+}
+
+char **split1(const char *str, const char *ch) // return dynamic memory
+{
+    char **Vector = (char **)malloc(sizeof(char *) * TokenCount(str, ch) + 1);
+    int Vsize = 0;
+    if (Vector == NULL)
+    {
+        return NULL;
+    }
+
+    char *token = (char *)malloc(sizeof(char) * findMaxTokenLength(str, ch) + 1);
+    int tokenSize = 0;
+    int len = strlen(str);
+    for (int i = 0; i <= len; ++i)
+    {
+        if (str[i] == *ch || str[i] == '\0')
+        {
+            char *newToken = (char *)malloc(sizeof(char) * tokenSize + 1);
+            if (newToken == NULL)
+            {
+                deleteVector(Vector, Vsize);
+                free(token);
+                return NULL;
+            }
+
+            token[tokenSize++] = '\0';
+            for (int j = 0; j < tokenSize; ++j)
+            {
+                newToken[j] = token[j];
+            }
+            tokenSize = 0;
+            Vector[Vsize++] = newToken;
+        }
+        else
+        {
+            token[tokenSize++] = str[i];
+        }
+    }
+    free(token);
+    Vector[Vsize++] = NULL;
+    printf("Vsize: %d m:%d \n", Vsize, TokenCount(str, ch) + 1);
+    return Vector;
+}
+//================================================
 int startsWith(const char *s1, const char *s2)
 {
     int k = 0;
@@ -542,7 +574,7 @@ int startsWith1(const char *s1, const char *s2, int index)
     return 1;
 }
 
-char *substring(const char *str, int index) // return dynamic memery
+char *substring(const char *str, int index) // return dynamic memory
 {
     int l = strlen(str);
     if (index >= l || index < 0)
@@ -564,7 +596,7 @@ char *substring(const char *str, int index) // return dynamic memery
     newStr[k] = '\0';
     return newStr;
 }
-char *substring1(const char *str, int l, int r) // return dynamic memery
+char *substring1(const char *str, int l, int r) // return dynamic memory
 {
     int len = strlen(str);
     if (r >= len || l < 0 || r <= l)
@@ -587,7 +619,7 @@ char *substring1(const char *str, int l, int r) // return dynamic memery
     return newStr;
 }
 
-char *toLowerCase(const char *str) // return dynamic memery
+char *toLowerCase(const char *str) // return dynamic memory
 {
 
     char *newStr = (char *)malloc(sizeof(char) * strlen(str) + 1);
@@ -605,7 +637,7 @@ char *toLowerCase(const char *str) // return dynamic memery
     newStr[i] = '\0';
     return newStr;
 }
-char *toUpperCase(const char *str) // return dynamic memery
+char *toUpperCase(const char *str) // return dynamic memory
 {
 
     char *newStr = (char *)malloc(sizeof(char) * strlen(str) + 1);
@@ -618,7 +650,7 @@ char *toUpperCase(const char *str) // return dynamic memery
     newStr[i] = '\0';
     return newStr;
 }
-char *trimEnd(const char *str) // return dynamic memery
+char *trimEnd(const char *str) // return dynamic memory
 {
     int l = strlen(str);
     int c = 0;
@@ -641,7 +673,7 @@ char *trimEnd(const char *str) // return dynamic memery
     newStr[index] = '\0';
     return newStr;
 }
-char *trimStart(const char *str) // return dynamic memery
+char *trimStart(const char *str) // return dynamic memory
 {
     int l = strlen(str);
     int c = 0;
@@ -654,7 +686,7 @@ char *trimStart(const char *str) // return dynamic memery
     {
         return NULL;
     }
-    
+
     int index = 0;
     while (index < (l - c))
     {
@@ -664,7 +696,7 @@ char *trimStart(const char *str) // return dynamic memery
     newStr[index] = '\0';
     return newStr;
 }
-char *trim(const char *str) // return dynamic memery
+char *trim(const char *str) // return dynamic memory
 {
     char *a = trimStart(str);
     char *b = trimEnd(a);

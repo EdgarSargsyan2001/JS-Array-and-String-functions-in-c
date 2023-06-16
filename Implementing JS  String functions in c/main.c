@@ -66,13 +66,13 @@ int main()
     // free(k);
     char str5[] = {"The quick brown fox jumps over the lazy dog."};
 
-    // struct split1Ans k = split1(str5, " "); // return dynamic memery (matrix)
-    // for (int i = 0; i < k.size; ++i)
-    // {
-    //     printf("%s \n", k.arrforString[i]);
-    //     free(k.arrforString[i]);
-    // }
-    // free(k.arrforString);
+    char **v = split1(str5, "o"); // return dynamic memery (matrix)
+    for (int i = 0; v[i]; ++i)
+    {
+        printf("%s \n", v[i]);
+        free(v[i]);
+    }
+    free(v);
 
     // printf("%d\n", startsWith(str5, "The"));
     // printf("%d", startsWith1(str5, "quick",4));
@@ -94,13 +94,13 @@ int main()
 
     char str7[] = {"    Hello world!    "};
 
-    char *t = trimEnd(str7);    // return dynamic memery
-    char *t1 = trimStart(str7); // return dynamic memery
-    char *t2 = trim(str7);      // return dynamic memery
+    // char *t = trimEnd(str7);    // return dynamic memery
+    // char *t1 = trimStart(str7); // return dynamic memery
+    // char *t2 = trim(str7);      // return dynamic memery
     // printf("%s$\n", t);
     // printf("%s$\n", t1);
-    printf("%s", t2);
-    free(t);
-    free(t1);
-    free(t2);
+    // printf("%s", t2);
+    // free(t);
+    // free(t1);
+    // free(t2);
 }

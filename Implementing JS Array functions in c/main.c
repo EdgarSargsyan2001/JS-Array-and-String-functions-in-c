@@ -31,13 +31,14 @@ int main()
         (int[]){4, 5, 6},
         (int[]){7, 8, 9}};
 
-    // print(concat(arr1,N,arr2,M),N+M);
+    // print(concat(arr1, N, arr2, M), N + M);
 
-    // printf("%d",every(arr1,N,foo));
+    // printf("%d", every(arr1, N, foo));
 
-    // print(filter(arr1,N,foo),4); ?????
+    // struct Array k = filter(arr1, N, foo);
+    // print(k.ptrArr, k.size);
 
-    // print(flat(matrix, 3, 3, 1), 9); ????
+    // print(flat(matrix, 3, 3, 1), 9); //????
 
     // forEach(arr1,N,foo);
     // printf("%d ", indexOf(arr1, N, 2, 0));
@@ -49,21 +50,23 @@ int main()
     // reverse(arr2, M);
     // print(arr2, M);
 
-    // slice(arr1, N, 2, 5); // return dynamic memory
+    // struct Array kk = slice(arr1, N, 2, 5); // return dynamic memory
+    // print(kk.ptrArr,kk.size);
 
     // printf("%d",some(arr1,N,foo));
     // sort(arr1, N);
 
-    // splice(arr1, N, 4, 2, 99); // return dynamic memory
+    // struct Array k1 = splice(arr1, N, 2, 0, 99); // return dynamic memory
+    // print(k1.ptrArr, k1.size);
 
     // =======   iterator   ============
-    struct iterator it = entries(arr1, N);
-    struct iteratorInfo info = next(&it);
-    while (!info.done)
-    {
-        printf("done %d  val %d\n", info.done, info.value);
-        info = next(&it);
-    }
+    // struct iterator it = entries(arr1, N);
+    // struct iteratorInfo info = next(&it);
+    // while (!info.done)
+    // {
+    //     printf("done %d  val %d\n", info.done, info.value);
+    //     info = next(&it);
+    // }
     //===============================
 
     // fill(arr1, N, 0, 2, N);
